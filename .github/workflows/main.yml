@@ -2,6 +2,9 @@ name: Build
 
 on: [push, pull_request]
 
+env:
+  BUILD_TYPE: Release
+
 jobs:
   Build:
     name: ${{ matrix.platform.name }}
@@ -51,11 +54,11 @@ jobs:
           libpulse-dev
     - uses: actions/checkout@v2
     - name: Configure CMake
-      run: cmake -B build ${{ matrix.platform.flags }} --config Release -DSDL_SHARED_ENABLED_BY_DEFAULT=ON -DSDL_STATIC_ENABLED_BY_DEFAULT=ON
+      run: cmake -B build ${{ matrix.platform.flags }} -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DSDL_SHARED_ENABLED_BY_DEFAULT=ON -DSDL_STATIC_ENABLED_BY_DEFAULT=ON
     - name: Build
-      run: cmake --build build/
+      run: cmake --build build/ --config Release
     - name: Install
-      run: cmake --install build/ --prefix lib
+      run: cmake --install build/ --prefix lib --config Release
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
