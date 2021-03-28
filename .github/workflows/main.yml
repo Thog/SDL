@@ -58,11 +58,10 @@ jobs:
     - name: Build
       run: cmake --build build/ --config Release
     - name: Install
-      run: cmake --install build/ --prefix lib --config Release
+      run: sudo cmake --install build/ --prefix release_output --config Release
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
         name: ${{ matrix.platform.name }}
         path: |
-          include
-          lib
+          release_output/*
