@@ -54,4 +54,10 @@ jobs:
       run: cmake -B build ${{ matrix.platform.flags }}
     - name: Build
       run: cmake --build build/
-
+    - name: Upload artifact
+    - uses: actions/upload-artifact@v2
+      with:
+        name: ${{ matrix.platform.name }}
+        path: |
+          build/include/
+          build/lib/
