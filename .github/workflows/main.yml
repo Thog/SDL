@@ -57,8 +57,12 @@ jobs:
       run: cmake -B build ${{ matrix.platform.flags }} -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DSDL_SHARED_ENABLED_BY_DEFAULT=ON -DSDL_STATIC_ENABLED_BY_DEFAULT=ON
     - name: Build
       run: cmake --build build/ --config Release
+    - name: Install (Windows)
+      run: cmake --install build/ --prefix release_output --config Release
+      if: runner.os == 'Windows'
     - name: Install
       run: sudo cmake --install build/ --prefix release_output --config Release
+      if: runner.os != 'Windows'
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
